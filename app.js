@@ -9,6 +9,8 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
 
+const listings = require("./routes/listing.js");
+const review = require("./routes/review.js");
 
 
 const sessionOptions = {
