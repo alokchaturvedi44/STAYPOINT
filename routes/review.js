@@ -25,14 +25,14 @@ router.post("/", validateReview, wrapAsync(async (req, res) => {
     if (!listing) {
         throw new ExpressError(404, "Listing not found");
     }
-    
-    let newReview = new Review(req.body.review); 
 
+    let newReview = new Review(req.body.review); 
     listing.reviews.push(newReview);
 
     await newReview.save();
     await listing.save();
     
+    req.flash("success", "New Review Posted!");
     res.redirect(`/listings/${listing._id}`);
 }));
 
@@ -43,6 +43,7 @@ router.delete("/:reviewId", wrapAsync(async (req, res) => {
     await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
     await Review.findByIdAndDelete(reviewId);
 
+    req.flash("success", "Review Deleted!");
     res.redirect(`/listings/${id}`);
 }));
 
