@@ -5,6 +5,32 @@ const methodOverride = require("method-override");
 const mongoose = require("mongoose");
 const ExpressError = require("./utils/ExpressError.js");
 const ejsMate = require("ejs-mate"); 
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const flash = require("connect-flash");
+
+
+
+const sessionOptions = {
+    secret: "passkey", 
+    resave: false, 
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+    }
+};
+
+app.use(cookieParser("secretcode"));
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
 
 const listings = require("./routes/listing.js");
 const review = require("./routes/review.js");
@@ -27,6 +53,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 
 app.get("/", (req, res) => {
+    console.dir(req.cookies);
     res.send("root is working!");
 });
 
@@ -36,6 +63,7 @@ app.use("/listings/:id/reviews", review);
 // app.all("*", (req, res, next) => {
 //     next(new ExpressError(404, "Page not found"));
 // });
+
 
 // error handling middleware
 app.use((err, req, res, next) => {
