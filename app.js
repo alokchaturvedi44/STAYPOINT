@@ -12,6 +12,33 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
+const listings = require("./routes/listing.js");
+const review = require("./routes/review.js");
+
+
+const sessionOptions = {
+    secret: "passkey", 
+    resave: false, 
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+    }
+};
+
+app.use(cookieParser("secretcode"));
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
+
+const listings = require("./routes/listing.js");
+const review = require("./routes/review.js");
 
 
 const sessionOptions = {
