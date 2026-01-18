@@ -74,6 +74,7 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
+
 // error handling middleware
 app.use((err, req, res, next) => {
     let{statusCode = 500, message = "Something went wrong!"} = err;
