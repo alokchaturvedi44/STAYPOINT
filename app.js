@@ -1,8 +1,8 @@
+const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
 const path = require("path");
 const methodOverride = require("method-override");
-const mongoose = require("mongoose");
 const ExpressError = require("./utils/ExpressError.js");
 const ejsMate = require("ejs-mate"); 
 const cookieParser = require("cookie-parser");
@@ -73,11 +73,6 @@ app.get("/", (req, res) => {
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
-
-// app.all("*", (req, res, next) => {
-//     next(new ExpressError(404, "Page not found"));
-// });
-
 
 // error handling middleware
 app.use((err, req, res, next) => {

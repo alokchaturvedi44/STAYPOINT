@@ -7,6 +7,7 @@ main()
 .then(res => console.log("connected to DB"))
 .catch(err => console.log(err));
 async function main(){
+    mongoose.set('strictQuery', true);
     await mongoose.connect(MONGO_URL);
 }
 
