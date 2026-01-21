@@ -7,10 +7,11 @@ const ExpressError = require("./utils/ExpressError.js");
 const ejsMate = require("ejs-mate"); 
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const flash = require("connect-flash");
+const flash = require("express-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+
 
 
 
@@ -32,8 +33,8 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-passport.use(User.createStrategy());
+passport.use(new LocalStrategy(User.authenticate()));
+// passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -48,6 +49,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js")
 
+mongoose.set("strictQuery", false);
 const MONGO_URL = "mongodb://127.0.0.1:27017/staypoint";
 main()
 .then(res => console.log("connected to DB"))
