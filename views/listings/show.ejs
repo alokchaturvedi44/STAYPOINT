@@ -7,9 +7,10 @@
         <img src="<%= listing.image %>" class="card-img-top show-image" alt="listing_image"> <br><br> 
         <div class="card-body col-6">
             <p class="card-text">
+                <i><%= listing.owner.username %></i> <br>
                 <%= listing.description %>  <br>
                 &#8377; <%= new Intl.NumberFormat("en-IN").format(listing.price) %> / night  <br>
-                <%= listing.location %>   <br>
+                <%= listing.location %>  <br>
                 <%= listing.country %>  
             </p>
         </div>
